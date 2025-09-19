@@ -1,0 +1,16 @@
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\bin\Debug\net8.0\Demo.Application.deps.json
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\bin\Debug\net8.0\Demo.Application.dll
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\bin\Debug\net8.0\Demo.Application.pdb
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\bin\Debug\net8.0\Demo.Domain.dll
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\bin\Debug\net8.0\Demo.Domain.pdb
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\obj\Debug\net8.0\Demo.Application.csproj.AssemblyReference.cache
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\obj\Debug\net8.0\Demo.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\obj\Debug\net8.0\Demo.Application.AssemblyInfoInputs.cache
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\obj\Debug\net8.0\Demo.Application.AssemblyInfo.cs
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\obj\Debug\net8.0\Demo.Application.csproj.CoreCompileInputs.cache
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\obj\Debug\net8.0\Demo.Application.sourcelink.json
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\obj\Debug\net8.0\Demo.App.371CD7EF.Up2Date
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\obj\Debug\net8.0\Demo.Application.dll
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\obj\Debug\net8.0\refint\Demo.Application.dll
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\obj\Debug\net8.0\Demo.Application.pdb
+C:\Users\daand\Desktop\school\3dejaar\applied software project\demo_project\Demo\Demo.Application\obj\Debug\net8.0\ref\Demo.Application.dll
