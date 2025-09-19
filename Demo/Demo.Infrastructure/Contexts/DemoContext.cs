@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace AP.MyGameStore.Infrastructure.Contexts
+namespace Demo.Infrastructure.Contexts
 {
     public class DemoContext : DbContext
     {
