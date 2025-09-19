@@ -1,1 +1,50 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+*.log
+
+# Visual Studio / Rider / VS Code files
 .vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.userprefs
+*.sln.docstates
+
+# ASP.NET / Blazor publish outputs
+wwwroot/
+*.publishsettings
+*.pubxml
+*.pubxml.user
+
+# NuGet packages
+*.nupkg
+# If you have packages folder (older projects)
+packages/
+# Auto-generated lock file
+project.lock.json
+# NuGet v3 cache
+~/.nuget/
+
+# .NET build info
+project.fragment.lock.json
+artifacts/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.mdb
+*.dbmdl
+
+# Coverage / test output
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
+
+# Windows
+Thumbs.db
+desktop.ini
