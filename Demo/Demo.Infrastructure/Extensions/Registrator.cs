@@ -17,7 +17,7 @@ namespace AP.MyGameStore.Infrastructure.Extensions
         public static IServiceCollection RegisterDbContext(this IServiceCollection services)
         {
             services.AddDbContext<DemoContext>(options =>
-                        options.UseSqlServer("name=ConnectionStrings:MyGameStore"));
+                        options.UseSqlServer("name=ConnectionStrings:Demo"));
 
             return services;
         }

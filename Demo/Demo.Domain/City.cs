@@ -11,7 +11,7 @@ namespace Demo.Domain
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Population { get; set; }
+        public uint Population { get; set; }
         public int CountryId { get; set; }
 
         [JsonIgnore]
