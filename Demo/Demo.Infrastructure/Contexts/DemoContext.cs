@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Demo.Domain;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Reflection;
 
 namespace Demo.Infrastructure.Contexts
@@ -9,6 +11,9 @@ namespace Demo.Infrastructure.Contexts
         {
 
         }
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<City> Cities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
