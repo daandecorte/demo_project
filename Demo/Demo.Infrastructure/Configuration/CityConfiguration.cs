@@ -17,7 +17,7 @@ namespace Demo.Infrastructure.Configuration
             builder.ToTable("tblCities", "City").HasKey(p => p.Id);
             builder.HasIndex(c => c.Id).IsUnique();
             builder.Property(c => c.Id).HasColumnType("int");
-            builder.Property(c => c.Population).HasColumnType("bigint").HasAnnotation("Range", new RangeAttribute(0, 10000000000));
+            builder.Property(c => c.Population).HasColumnType("bigint");//.HasAnnotation("Range", new RangeAttribute(0, 10000000000));
             builder.Property(c => c.Name).IsRequired().HasColumnType("nvarchar(50)");
         }
     }

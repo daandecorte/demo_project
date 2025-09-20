@@ -1,4 +1,7 @@
 
+using AP.MyGameStore.Infrastructure.Extensions;
+using Demo.Application.Extensions;
+
 namespace Demo.WebApi
 {
     public class Program
@@ -8,6 +11,8 @@ namespace Demo.WebApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.RegisterApplication();
+            builder.Services.RegisterInfrastructure();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
