@@ -6,7 +6,7 @@ namespace Demo.Application.Interfaces
 {
     public interface ICountryRepository : IGenericRepository<Country>
     {
-        //Task<PagedResult<Store>> GetAll(string? nameFilter = null, SortBy? sortBy = null, int pageNumber = 1, int pageLength = 10);
+        Task<PagedResult<Country>> GetAll(string? nameFilter = null, SortBy? sortBy = null, int pageNumber = 1, int pageLength = 10);
 
         public enum SortBy
         {
@@ -18,8 +18,6 @@ namespace Demo.Application.Interfaces
     public enum sortBy
     {
         cityAscending,
-        cityDescending,
-        zipCodeAscending,
-        zipcodeDescending
+        cityDescending
     }
 }
