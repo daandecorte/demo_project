@@ -1,7 +1,6 @@
-﻿using AP.MyGameStore.Application.Interfaces;
-using AP.MyGameStore.Infrastructure.Contexts;
-using AP.MyGameStore.Infrastructure.Repositories;
-using AP.MyGameStore.Infrastructure.UoW;
+﻿using Demo.Application.Interfaces;
+using Demo.Infrastructure.Contexts;
+using Demo.Infrastructure.UoW;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,7 +16,7 @@ namespace AP.MyGameStore.Infrastructure.Extensions
         }
         public static IServiceCollection RegisterDbContext(this IServiceCollection services)
         {
-            services.AddDbContext<MyGameStoreContext>(options =>
+            services.AddDbContext<DemoContext>(options =>
                         options.UseSqlServer("name=ConnectionStrings:MyGameStore"));
 
             return services;
@@ -25,8 +24,7 @@ namespace AP.MyGameStore.Infrastructure.Extensions
 
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IPeopleRepository, PeopleRepository>();
-            services.AddScoped<IStoresRepository, StoresRepository>();
+
             services.AddScoped<IUnitofWork, UnitofWork>();
             return services;
         }
