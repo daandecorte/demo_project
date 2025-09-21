@@ -1,4 +1,5 @@
 ﻿using Demo.Application.Interfaces;
+using Demo.Application.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,7 @@ namespace Demo.Application.Extensions
         public static IServiceCollection RegisterApplication(this IServiceCollection services)
         {
             //services.AddScoped<ICountryService, CountryService>();
-            //services.AddScoped<ICityService, CityService>();
+            services.AddScoped<ICityService, CityService>();
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
