@@ -3,6 +3,7 @@ using Demo.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Demo.Application.CQRS.Cities;
+using Demo.Application.Exceptions;
 
 namespace Demo.WebApi.Controllers
 {
@@ -22,6 +23,19 @@ namespace Demo.WebApi.Controllers
         {
             return Ok(await mediator.Send(new GetAllCitiesQuery()));
         }
+
+        [Route("{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetCityById(int id)
+        {
+            var city = await mediator.Send(new GetCityByIdQuery() { Id = id });
+
+            if (city == null)
+                return NotFound();
+
+            return Ok(city);
+        }
+
 
         [Route("{id}")]
         [HttpDelete]

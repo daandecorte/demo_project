@@ -25,6 +25,13 @@ namespace Demo.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<City> GetByIdWithCountry(int id)
+        {
+            return await context.Cities
+                .Include(p => p.Country)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
         public bool AnyWithCountry(int countryId)
         {
             return context.Cities.Any(p => p.CountryId == countryId);
