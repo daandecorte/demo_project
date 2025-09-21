@@ -1,0 +1,39 @@
+﻿@page "/cities"
+@inject HttpClient Http;
+
+<h3>Cities</h3>
+
+@if (cities == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (cities.Count == 0)
+{
+    <p>No cities found.</p>
+}
+else
+{
+    <ul>
+        @foreach (var city in cities)
+        {
+            <li>@city.Name</li>
+        }
+    </ul>
+}
+
+@code {
+    private List<City> cities;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            cities = await Http.GetFromJsonAsync<List<City>>("/api/v1/city");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching cities: {ex.Message}");
+            cities = new List<City>();
+        }
+    }
+}
