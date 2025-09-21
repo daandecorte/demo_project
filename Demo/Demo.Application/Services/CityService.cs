@@ -11,9 +11,11 @@ namespace Demo.Application.Services
     public class CityService : ICityService
     {
         private readonly IUnitofWork uow;
-        public CityService(IUnitofWork uow)
+        private readonly IEmailService emailService;
+        public CityService(IUnitofWork uow, IEmailService emailService)
         {
             this.uow = uow;
+            this.emailService = emailService;
         }
         public async Task Delete(int id)
         {
@@ -24,6 +26,10 @@ namespace Demo.Application.Services
             }
             uow.CityRepository.Delete(city);
             await uow.Commit();
+
+            var subject = "City Deleted";
+            var body = $"The city '{city.Name}' has been deleted.";
+            await emailService.SendEmailAsync("daan.decorte@gmail.com", subject, body);
         }
     }
 }
