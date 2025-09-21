@@ -1,0 +1,30 @@
+﻿@page "/deletecity"
+@rendermode InteractiveServer
+@inject HttpClient http
+
+<PageTitle>Delete City</PageTitle>
+
+<h1>Delete City</h1>
+
+<p role="status">Current status: @currentStatus</p>
+
+<button class="btn btn-primary" @onclick="() => Delete(1)">Delete City 1</button>
+
+@code {
+    private string currentStatus = "";
+    private async Task Delete(int id)
+    {
+        var res =  await http.DeleteAsync($"api/City/{id}");
+        if(res.IsSuccessStatusCode)
+        {
+            currentStatus = res.StatusCode.ToString();
+            Console.WriteLine($"City {id} Deleted");
+        }
+        else
+        {
+            currentStatus = res.StatusCode.ToString();
+            var error = await res.Content.ReadAsStringAsync();
+            Console.WriteLine($"Failed: {res.StatusCode} {error}");
+        }
+    }
+}

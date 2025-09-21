@@ -5,9 +5,9 @@ namespace Demo.Application.Interfaces
 {
     public interface ICityRepository : IGenericRepository<City>
     {
-        bool AnyWithEmployer(int countryId);
+        bool AnyWithCountry(int countryId);
 
-        IEnumerable<City> GetByEmployer(int countryId);
+        IEnumerable<City> GetByCountry(int countryId);
 
         void Delete(IEnumerable<City> cities);
 

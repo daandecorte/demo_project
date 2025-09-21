@@ -36,6 +36,7 @@ namespace AP.MyGameStore.WebAPI.Middleware
                     case FV.ValidationException:
                         response.StatusCode = StatusCodes.Status400BadRequest;
                         break;
+                    case KeyNotFoundException:
                     case RelationNotFoundException:
                         response.StatusCode = StatusCodes.Status404NotFound;
                         break;

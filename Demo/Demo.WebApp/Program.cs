@@ -11,6 +11,7 @@ namespace Demo.WebApp
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7195/") });
 
             var app = builder.Build();
 

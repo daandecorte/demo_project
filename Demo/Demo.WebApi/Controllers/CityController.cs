@@ -1,5 +1,6 @@
-﻿using MediatR;
-using Demo.Application.Interfaces;
+﻿using Demo.Application.Interfaces;
+using Demo.Application.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Demo.Application.CQRS.Cities;
 
@@ -17,9 +18,18 @@ namespace Demo.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCities([FromQuery] int pageNr = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> GetAllCities()
         {
-            return Ok(await mediator.Send(new GetAllCitiesQuery() { PageNr = pageNr, PageSize = pageSize}));
+            return Ok(await mediator.Send(new GetAllCitiesQuery()));
+        }
+
+        [Route("{id}")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCity(int id)
+        {
+            //exception handling for KeyNotFoundException in ExceptionHandlingMiddelware
+            await cityService.Delete(id);
+            return NoContent();
         }
     }
 }

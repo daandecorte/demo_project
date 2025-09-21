@@ -17,12 +17,12 @@ namespace Demo.Infrastructure.Repositories
             this.context = context;
         }
 
-        public bool AnyWithEmployer(int countryId)
+        public bool AnyWithCountry(int countryId)
         {
             return context.Cities.Any(p => p.CountryId == countryId);
         }
 
-        public IEnumerable<City> GetByEmployer(int countryId)
+        public IEnumerable<City> GetByCountry(int countryId)
         {
             return context.Cities.Where(p => p.CountryId == countryId);
         }

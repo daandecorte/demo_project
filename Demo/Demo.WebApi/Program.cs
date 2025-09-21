@@ -1,6 +1,7 @@
 
 using AP.MyGameStore.Infrastructure.Extensions;
 using Demo.Application.Extensions;
+using Demo.WebAPI.Extensions;
 
 namespace Demo.WebApi
 {
@@ -27,7 +28,7 @@ namespace Demo.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseErrorHandlingMiddleware();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
