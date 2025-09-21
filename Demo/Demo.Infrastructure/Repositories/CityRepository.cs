@@ -1,11 +1,7 @@
-﻿using AutoMapper.QueryableExtensions;
-using Demo.Application.Interfaces;
+﻿using Demo.Application.Interfaces;
 using Demo.Domain;
 using Demo.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Demo.Infrastructure.Repositories
 {
