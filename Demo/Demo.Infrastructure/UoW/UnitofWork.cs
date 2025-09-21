@@ -11,11 +11,19 @@ namespace Demo.Infrastructure.UoW
     public class UnitofWork : IUnitofWork
     {
         private readonly DemoContext ctxt;
+        private readonly ICityRepository cityRepo;
+        private readonly ICountryRepository countryRepo;
 
-        public UnitofWork(DemoContext ctxt)
+        public UnitofWork(DemoContext ctxt, ICountryRepository countryRepo, ICityRepository cityRepo)
         {
             this.ctxt = ctxt;
+            this.cityRepo = cityRepo;
+            this.countryRepo = countryRepo;
         }
+
+        public ICityRepository CityRepository => cityRepo;
+
+        public ICountryRepository CountryRepository => countryRepo;
 
         public async Task Commit()
         {
