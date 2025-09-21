@@ -19,6 +19,11 @@ namespace Demo.Application.Services
             this.emailService = emailService;
         }
 
+        public async Task<IEnumerable<City>> GetAllWithCountry()
+        {
+            return await uow.CityRepository.GetAllWithCountry();
+        }
+
         public async Task<IEnumerable<City>> GetAll()
         {
             return await uow.CityRepository.GetAll();

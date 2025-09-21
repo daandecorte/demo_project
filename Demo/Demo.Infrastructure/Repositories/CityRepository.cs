@@ -1,4 +1,5 @@
-﻿using Demo.Application.Interfaces;
+﻿using AutoMapper.QueryableExtensions;
+using Demo.Application.Interfaces;
 using Demo.Domain;
 using Demo.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,13 @@ namespace Demo.Infrastructure.Repositories
         public CityRepository(DemoContext context) : base(context)
         {
             this.context = context;
+        }
+
+        public async Task<IEnumerable<City>> GetAllWithCountry()
+        {
+            return await context.Cities
+                .Include(p => p.Country)
+                .ToListAsync();
         }
 
         public bool AnyWithCountry(int countryId)

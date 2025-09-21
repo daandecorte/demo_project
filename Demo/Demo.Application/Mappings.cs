@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Demo.Application.CQRS.Cities;
+using Demo.Application.CQRS.Countries;
 using Demo.Domain;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,13 @@ namespace Demo.Application
     {
         public Mappings()
         {
-            CreateMap<City, CityDTO>();
-            CreateMap<City, CityDTO>().ReverseMap();
+            CreateMap<City, CityDTO>()
+                .ForMember(city => city.Country, 
+                            opt => opt.MapFrom(src => src.Country.Name));
+            //CreateMap<City, CityDTO>().ReverseMap();
+
+            CreateMap<Country, CountryDTO>();
+            //CreateMap<Country, CountryDTO>().ReverseMap();
         }
     }
 }

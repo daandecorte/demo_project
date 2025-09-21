@@ -14,7 +14,7 @@ namespace Demo.Domain
         public uint Population { get; set; }
         public int CountryId { get; set; }
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public Country Country { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace Demo.Application.CQRS.Cities
 
         public async Task<IEnumerable<CityDTO>> Handle(GetAllCitiesQuery request, CancellationToken cancellationToken)
         {
-            return mapper.Map<IEnumerable<CityDTO>>(await uow.CityRepository.GetAll());
+            return mapper.Map<IEnumerable<CityDTO>>(await uow.CityRepository.GetAllWithCountry());
         }
     }
 }
