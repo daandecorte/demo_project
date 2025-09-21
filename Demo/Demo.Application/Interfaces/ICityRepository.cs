@@ -10,6 +10,8 @@ namespace Demo.Application.Interfaces
 
         IEnumerable<City> GetByCountry(int countryId);
 
+        Task<IEnumerable<City>> GetByCountryId(int country);
+
         void Delete(IEnumerable<City> cities);
 
 

@@ -35,6 +35,14 @@ namespace Demo.Infrastructure.Repositories
             return context.Cities.Where(p => p.CountryId == countryId);
         }
 
+        public async Task<IEnumerable<City>> GetByCountryId(int country)
+        {
+            return await context.Cities
+                .Where(p => p.CountryId == country)
+                .Include(p => p.Country)
+                .ToListAsync();
+        }
+
         public void Delete(IEnumerable<City> cities)
         {
             context.Cities.RemoveRange(cities);
