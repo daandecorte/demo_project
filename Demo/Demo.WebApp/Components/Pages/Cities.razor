@@ -13,12 +13,25 @@ else if (cities.Count == 0)
 }
 else
 {
-    <ul>
-        @foreach (var city in cities)
-        {
-            <li>@city.Name</li>
-        }
-    </ul>
+    <table class="table-bordered"> 
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Population</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var city in cities)
+            {
+                <tr>
+                    <td>@city.Name</td>
+                    <td>@city.Country</td>
+                    <td>@city.Population</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 
 @code {
