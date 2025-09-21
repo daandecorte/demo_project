@@ -13,7 +13,7 @@ namespace Demo.Application.Extensions
         {
             //services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<ICityService, CityService>();
-            builder.Services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEmailService, EmailService>();
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());

@@ -1,4 +1,5 @@
-﻿using Demo.Application.Interfaces;
+﻿using Demo.Application.Exceptions;
+using Demo.Application.Interfaces;
 using Demo.Domain;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,13 @@ namespace Demo.Application.Services
         }
         public async Task Delete(int id)
         {
-            var city = await this.uow.CityRepository.GetById(id);
-            if(city == null)
+            var cities = await this.uow.CityRepository.GetAll();
+            if (cities.Count() <= 1)
+            {
+                throw new ValidationException("Cannot delete the last city.");
+            }
+            var city = cities.FirstOrDefault(c => c.Id == id);
+            if (city == null)
             {
                 throw new KeyNotFoundException($"A city with id {id} does not exist!");
             }

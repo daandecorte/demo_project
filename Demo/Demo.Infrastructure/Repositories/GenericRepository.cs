@@ -19,9 +19,9 @@ namespace Demo.Infrastructure.Repositories
             _dbSet = _context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAll(int pageNr, int pageSize)
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return await _dbSet.Skip((pageNr - 1) * pageSize).Take(pageSize).ToListAsync();
+            return await _dbSet.ToListAsync();
         }
 
         public async Task<T> GetById(int id)
