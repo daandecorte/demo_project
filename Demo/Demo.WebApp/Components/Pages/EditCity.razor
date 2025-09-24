@@ -9,6 +9,15 @@
 
 <h3>Edit City</h3>
 
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
 @if (city == null || countries.Length == 0)
 {
     <p><em>Loading...</em></p>
@@ -29,7 +38,7 @@ else
         <div class="mb-3">
             <label for="country" class="form-label">Country</label>
             <InputSelect id="country" class="form-select" @bind-Value="city.CountryId">
-                <option value="">Select a country</option>
+                <option value="0">Select a country</option>
                 @foreach (var country in countries)
                 {
                     <option value="@country.Id">@country.Name</option>
@@ -39,7 +48,6 @@ else
         <button type="submit" class="btn btn-primary">Save</button>
         <button type="button" class="btn btn-secondary ms-2" @onclick='@(() => Navigation.NavigateTo("/cities"))'>Cancel</button>
     </EditForm>
-    
 }
 
 @code {
@@ -48,6 +56,8 @@ else
 
     private CityDTO? city;
     private CountryDTO[] countries = Array.Empty<CountryDTO>();
+    private string? successMessage;
+    private string? errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
@@ -58,20 +68,28 @@ else
         countries = pagedResult?.Data?.ToArray() ?? Array.Empty<CountryDTO>();
     }
 
-   private async Task HandleValidSubmit()
+    private async Task HandleValidSubmit()
     {
+        successMessage = null;
+        errorMessage = null;
+
         if (city != null)
         {
             var response = await Http.PutAsJsonAsync($"/api/v1/City/{Id}", city);
             if (response.IsSuccessStatusCode)
             {
+                successMessage = "City updated successfully.";
+                await Task.Delay(1500);
                 Navigation.NavigateTo("/cities");
             }
             else
             {
-                // Handle error (e.g., show a message to the user)
-                Console.WriteLine($"Error updating city: {response.ReasonPhrase}");
+                errorMessage = $"Error updating city: {response.ReasonPhrase}";
             }
+        }
+        else
+        {
+            errorMessage = "City data is missing.";
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@page "/cities"
+@using Demo.Application.CQRS.Cities
 @inject HttpClient Http;
 
 <h3>Cities</h3>
@@ -28,7 +29,7 @@ else
                 <tr>
                     <td>@city.Name</td>
                     <td>@city.Country</td>
-                    <td>@city.Population</td>
+                    <td>@city.Population.ToString("N0")</td>
                     <td>
                         <a href="/cities/edit/@city.Id">Edit</a>
                     </td>
@@ -39,18 +40,18 @@ else
 }
 
 @code {
-    private List<City>? cities;
+    private List<CityDTO>? cities;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            cities = await Http.GetFromJsonAsync<List<City>>("/api/v1/city");
+            cities = await Http.GetFromJsonAsync<List<CityDTO>>("/api/v1/city");
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error fetching cities: {ex.Message}");
-            cities = new List<City>();
+            cities = new List<CityDTO>();
         }
     }
 }

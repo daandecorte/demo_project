@@ -59,9 +59,23 @@ namespace Demo.Application.Services
             await emailService.SendEmailAsync("daan.decorte@gmail.com", subject, body);
         }
 
-        public Task<City> Update(City city)
+        public async Task<City> Update(City city)
         {
-            throw new NotImplementedException();
+            // 1. Name must not be empty
+            if (string.IsNullOrWhiteSpace(city.Name))
+                throw new ValidationException("De naam mag niet leeg zijn.");
+
+            // 2. Population must not be greater than 10,000,000,000
+            if (city.Population > 10000000000)
+                throw new ValidationException("Het aantal inwoners mag niet groter zijn dan 10.000.000.000.");
+
+            // 3. Country must be chosen
+            if (city.CountryId == 0)
+                throw new ValidationException("Er moet een land gekozen worden.");
+
+            var updatedCity = uow.CityRepository.Update(city);
+            await uow.Commit();
+            return updatedCity;
         }
     }
 }

@@ -11,10 +11,10 @@ namespace Demo.Domain
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public uint Population { get; set; }
+        public long Population { get; set; }
         public int CountryId { get; set; }
 
-        //[JsonIgnore]
-        public Country Country { get; set; }
+        [JsonIgnore]
+        public Country? Country { get; set; }
     }
 }
