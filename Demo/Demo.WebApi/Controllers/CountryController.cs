@@ -14,6 +14,12 @@ namespace Demo.WebApi.Controllers
             this.mediator = mediator;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllCountries([FromQuery] int pageNr = 1, [FromQuery] int pageSize = 10)
+        {
+            return Ok(await mediator.Send(new GetAllCountriesQuery(){  PageNr = pageNr, PageSize = pageSize }));
+        }
+
         [Route("{id}/cities")]
         [HttpGet]
         public async Task<IActionResult> GetCitiesByCountry(int id)

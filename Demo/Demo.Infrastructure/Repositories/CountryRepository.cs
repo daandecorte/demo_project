@@ -56,9 +56,7 @@ namespace Demo.Infrastructure.Repositories
 
         public Country GetByName(string name)
         {
-            return context.Countries.FirstOrDefault(s => s.Name == name);
+            throw new NotImplementedException();
         }
-            
-
     }
 }

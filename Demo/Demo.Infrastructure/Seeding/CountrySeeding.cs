@@ -8,7 +8,10 @@ namespace Demo.Infrastructure.Seeding
         public static void Seed(this EntityTypeBuilder<Country> builder)
         {
             builder.HasData(
-                new Country { Id = -1, Name="België" }
+                new Country { Id = 1, Name="België" },
+                new Country { Id = 2, Name="Nederland" },
+                new Country { Id = 3, Name="Frankrijk" },
+                new Country { Id = 4, Name="Duitsland" }
             );
         }
     }

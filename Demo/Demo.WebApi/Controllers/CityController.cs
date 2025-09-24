@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Demo.Application.CQRS.Cities;
 using Demo.Application.Exceptions;
+using Demo.Domain;
 
 namespace Demo.WebApi.Controllers
 {
@@ -44,6 +45,26 @@ namespace Demo.WebApi.Controllers
             //exception handling for KeyNotFoundException in ExceptionHandlingMiddelware
             await cityService.Delete(id);
             return NoContent();
+        }
+
+        [Route("{id}")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateCity(int id, [FromBody] City updatedCity)
+        {
+            if (id != updatedCity.Id) return BadRequest();
+
+            try
+            {
+                return Ok(await cityService.Update(updatedCity));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (RelationNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

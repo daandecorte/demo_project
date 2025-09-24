@@ -47,6 +47,15 @@ namespace Demo.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("tblCities", "City");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            CountryId = -1,
+                            Name = "Antwerpen",
+                            Population = 10000000L
+                        });
                 });
 
             modelBuilder.Entity("Demo.Domain.Country", b =>
@@ -67,6 +76,28 @@ namespace Demo.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("tblCountries", "Country");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "België"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Nederland"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Frankrijk"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Duitsland"
+                        });
                 });
 
             modelBuilder.Entity("Demo.Domain.City", b =>

@@ -17,10 +17,13 @@ namespace Demo.Application
             CreateMap<City, CityDTO>()
                 .ForMember(city => city.Country, 
                             opt => opt.MapFrom(src => src.Country.Name));
-            //CreateMap<City, CityDTO>().ReverseMap();
 
             CreateMap<Country, CountryDTO>();
-            //CreateMap<Country, CountryDTO>().ReverseMap();
+
+            // Add this for PagedResult<T>
+            CreateMap(typeof(PagedResult<>), typeof(PagedResult<>))
+                .ConvertUsing(typeof(PagedResultConverter<,>));
         }
     }
+    
 }
