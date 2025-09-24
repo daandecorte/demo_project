@@ -43,6 +43,7 @@ else
                 <th style="padding:8px; border:1px solid #ccc;">Name</th>
                 <th style="padding:8px; border:1px solid #ccc;">Country</th>
                 <th style="padding:8px; border:1px solid #ccc;">Population</th>
+                <th style="padding:8px; border:1px solid #ccc;">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -52,6 +53,9 @@ else
                     <td style="padding:8px; border:1px solid #ccc;">@city.Name</td>
                     <td style="padding:8px; border:1px solid #ccc;">@city.Country</td>
                     <td style="padding:8px; border:1px solid #ccc;">@city.Population</td>
+                    <td style="padding:8px; border:1px solid #ccc;">
+                        <button @onclick="() => DeleteCity(city.Id)" class="btn btn-danger btn-sm">Delete</button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -133,5 +137,25 @@ else
                 .Where(c => c.Country.Contains(country, StringComparison.OrdinalIgnoreCase))
                 .ToList();
         }
+    }
+
+    private async Task DeleteCity(int id)
+    {
+        Console.WriteLine("Deleting city with id: " + id);
+
+        var res = await Http.DeleteAsync($"/api/v1/city/{id}");
+        if (res.IsSuccessStatusCode)
+        {
+            // currentStatus = res.StatusCode.ToString();
+            Console.WriteLine($"City {id} Deleted");
+        }
+        else
+        {
+            // currentStatus = res.StatusCode.ToString();
+            var error = await res.Content.ReadAsStringAsync();
+            Console.WriteLine($"Failed: {res.StatusCode} {error}");
+        }
+
+        await LoadData();
     }
 }
