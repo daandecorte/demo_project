@@ -1,52 +1,137 @@
 ﻿@page "/cities"
-@inject HttpClient Http;
+@using System.Net.Http.Json
+@inject HttpClient Http
+@rendermode InteractiveServer
 
-<h3>Cities</h3>
+
+<PageTitle>Cities Data</PageTitle>
+
+<h3>Cities Population Data</h3>
 
 @if (cities == null)
 {
-    <p><em>Loading...</em></p>
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading data...</p>
 }
-else if (cities.Count == 0)
+else if (!cities.Any())
 {
-    <p>No cities found.</p>
+    <div class="alert alert-warning" role="alert">
+        No data available.
+    </div>
 }
 else
 {
-    <table class="table-bordered"> 
+    <input 
+        type="text" 
+        class="form-control mb-3" 
+        placeholder="Search by city name..." 
+        @oninput="(e) => FilterCitiesByName(e.Value?.ToString())" 
+    />
+
+    <input 
+        type="text" 
+        class="form-control mb-3" 
+        placeholder="Search by country..."
+           @oninput="(e) => FilterCitiesByCountry(e.Value?.ToString())"
+    />
+
+    <table style="width:100%; border-collapse:collapse; border:1px solid #ccc; font-family:Arial, sans-serif; font-size:14px;">
         <thead>
-            <tr>
-                <th>Name</th>
-                <th>Country</th>
-                <th>Population</th>
+            <tr style="background-color:#f2f2f2; text-align:left;">
+                <th style="padding:8px; border:1px solid #ccc;">Name</th>
+                <th style="padding:8px; border:1px solid #ccc;">Country</th>
+                <th style="padding:8px; border:1px solid #ccc;">Population</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var city in cities)
             {
                 <tr>
-                    <td>@city.Name</td>
-                    <td>@city.Country</td>
-                    <td>@city.Population</td>
+                    <td style="padding:8px; border:1px solid #ccc;">@city.Name</td>
+                    <td style="padding:8px; border:1px solid #ccc;">@city.Country</td>
+                    <td style="padding:8px; border:1px solid #ccc;">@city.Population</td>
                 </tr>
             }
         </tbody>
     </table>
+
+    <div class="mt-3">
+        <small class="text-muted">Total cities: @cities.Count()</small>
+    </div>
+
+    <div class="mb-3">
+        <button class="btn btn-primary" @onclick="SortByPopulation">
+            Sort by Population @(isAscending ? "↑" : "↓")
+        </button>
+        <button class="btn btn-secondary ms-2" @onclick="LoadData">
+            Refresh Data
+        </button>
+    </div>
 }
 
 @code {
-    private List<City> cities;
+    private List<City>? cities;
+    private List<City>? allCities;
+    private bool isAscending = false;
+
+    public class CityData
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Country { get; set; } = string.Empty;
+        public int Population { get; set; }
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        try
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        allCities = await Http.GetFromJsonAsync<List<City>>("/api/v1/city");
+        cities = allCities?.ToList();
+    }
+
+    private async Task SortByPopulation()
+    {
+        if (cities != null && cities.Any())
         {
-            cities = await Http.GetFromJsonAsync<List<City>>("/api/v1/city");
+            var sortedList = isAscending
+                ? cities.OrderByDescending(c => c.Population).ToList()
+                : cities.OrderBy(c => c.Population).ToList();
+
+            isAscending = !isAscending;
+            cities = sortedList;
         }
-        catch (Exception ex)
+    }
+
+    private void FilterCitiesByName(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
         {
-            Console.WriteLine($"Error fetching cities: {ex.Message}");
-            cities = new List<City>();
+            cities = allCities?.ToList();
+        }
+        else if (allCities != null)
+        {
+            cities = allCities
+                .Where(c => c.Name.Contains(name, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+    }
+
+    private void FilterCitiesByCountry(string? country)
+    {
+        if (string.IsNullOrWhiteSpace(country))
+        {
+            cities = allCities?.ToList();
+        }
+        else if (allCities != null)
+        {
+            cities = allCities
+                .Where(c => c.Country.Contains(country, StringComparison.OrdinalIgnoreCase))
+                .ToList();
         }
     }
 }
