@@ -49,22 +49,16 @@ namespace Demo.WebApi.Controllers
 
         [Route("{id}")]
         [HttpPut]
-        public async Task<IActionResult> UpdateCity(int id, [FromBody] City updatedCity)
+        public async Task<IActionResult> UpdateCity(int id, [FromBody] UpdateCityDTO city)
         {
-            if (id != updatedCity.Id) return BadRequest();
+            if (id != city.Id)
+            {
+                return BadRequest("The ID in the URL does not match the ID in the request body.");
+            }
 
-            try
-            {
-                return Ok(await cityService.Update(updatedCity));
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (RelationNotFoundException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var updatedCity = await mediator.Send(new UpdateCommand { City = city });
+
+            return Ok(updatedCity);
         }
     }
 }

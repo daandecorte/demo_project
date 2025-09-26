@@ -54,14 +54,14 @@ else
     [Parameter]
     public int Id { get; set; }
 
-    private CityDTO? city;
+    private UpdateCityDTO? city;
     private CountryDTO[] countries = Array.Empty<CountryDTO>();
     private string? successMessage;
     private string? errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
-        city = await Http.GetFromJsonAsync<CityDTO>($"/api/v1/city/{Id}");
+        city = await Http.GetFromJsonAsync<UpdateCityDTO>($"/api/v1/city/{Id}");
 
         // Get the paged result and extract only the data
         var pagedResult = await Http.GetFromJsonAsync<PagedResult<CountryDTO>>("/api/v1/country");
@@ -79,7 +79,7 @@ else
             if (response.IsSuccessStatusCode)
             {
                 successMessage = "City updated successfully.";
-                await Task.Delay(1500);
+                await Task.Delay(2500);
                 Navigation.NavigateTo("/cities");
             }
             else

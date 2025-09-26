@@ -20,6 +20,10 @@ namespace Demo.Application
 
             CreateMap<Country, CountryDTO>();
 
+            CreateMap<City, UpdateCityDTO>();
+
+            CreateMap<UpdateCityDTO, City>();
+
             // Add this for PagedResult<T>
             CreateMap(typeof(PagedResult<>), typeof(PagedResult<>))
                 .ConvertUsing(typeof(PagedResultConverter<,>));

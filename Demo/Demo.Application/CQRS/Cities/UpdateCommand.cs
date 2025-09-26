@@ -8,12 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Demo.Application.Exceptions;
 
 namespace Demo.Application.CQRS.Cities
 {
-    public class UpdateCommand: IRequest<CityDTO>
+    public class UpdateCommand: IRequest<UpdateCityDTO>
     {
-        public CityDTO City { get; set; }
+        public UpdateCityDTO City { get; set; }
     }
 
     public class UpdateCommandValidator : AbstractValidator<UpdateCommand>
@@ -35,7 +36,7 @@ namespace Demo.Application.CQRS.Cities
         }
     }
 
-    public class UpdateCommandHandler : IRequestHandler<UpdateCommand, CityDTO>
+    public class UpdateCommandHandler : IRequestHandler<UpdateCommand, UpdateCityDTO>
     {
         private IUnitofWork uow;
         private IMapper mapper;
@@ -44,16 +45,16 @@ namespace Demo.Application.CQRS.Cities
             this.uow = uow;
             this.mapper = mapper;
         }
-        public async Task<CityDTO> Handle(UpdateCommand request, CancellationToken cancellationToken)
+        public async Task<UpdateCityDTO> Handle(UpdateCommand request, CancellationToken cancellationToken)
         {
             var city = await uow.CityRepository.GetById(request.City.Id);
             if (city == null)
-                throw new Exception("City not found");
+                throw new CityNotFoundException("City not found");
             // Map the updated fields from the DTO to the entity
             mapper.Map(request.City, city);
             var updatedCity = uow.CityRepository.Update(city);
             await uow.Commit();
-            return mapper.Map<CityDTO>(city);
+            return mapper.Map<UpdateCityDTO>(city);
         }
     }
 }
