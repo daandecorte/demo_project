@@ -2,6 +2,7 @@
 @using System.Net.Http.Json
 @inject HttpClient Http
 @rendermode InteractiveServer
+@attribute [StreamRendering]
 
 
 <PageTitle>Cities Data</PageTitle>
@@ -13,7 +14,7 @@
     <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
-    <p>Loading data...</p>
+    @* <p>Loading data...</p> *@
 }
 else if (!cities.Any())
 {
