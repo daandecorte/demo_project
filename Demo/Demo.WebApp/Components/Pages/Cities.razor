@@ -45,7 +45,8 @@ else
                 <th style="padding:8px; border:1px solid #ccc;">Name</th>
                 <th style="padding:8px; border:1px solid #ccc;">Country</th>
                 <th style="padding:8px; border:1px solid #ccc;">Population</th>
-                <th style="padding:8px; border:1px solid #ccc;">Delete</th>
+                <th style="padding:8px; border:1px solid #ccc;"></th>
+                <th style="padding:8px; border:1px solid #ccc;"></th>
             </tr>
         </thead>
         <tbody>
@@ -57,6 +58,9 @@ else
                     <td style="padding:8px; border:1px solid #ccc;">@city.Population</td>
                     <td style="padding:8px; border:1px solid #ccc;">
                         <button @onclick="() => DeleteCity(city.Id)" class="btn btn-danger btn-sm">Delete</button>
+                    </td
+                    <td style="padding:8px; border:1px solid #ccc;">
+                        <a class="btn btn-warning btn-sm" href="/cities/edit/@city.Id">Edit</a>
                     </td>
                 </tr>
             }
