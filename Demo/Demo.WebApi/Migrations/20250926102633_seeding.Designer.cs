@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Demo.Infrastructure.Migrations
+namespace Demo.WebApi.Migrations
 {
     [DbContext(typeof(DemoContext))]
-    [Migration("20250920140138_Initial")]
-    partial class Initial
+    [Migration("20250926102633_seeding")]
+    partial class seeding
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,36 @@ namespace Demo.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("tblCities", "City");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            CountryId = 1,
+                            Name = "Antwerpen",
+                            Population = 10000000L
+                        },
+                        new
+                        {
+                            Id = -2,
+                            CountryId = 1,
+                            Name = "Brussel",
+                            Population = 20000000L
+                        },
+                        new
+                        {
+                            Id = -3,
+                            CountryId = 1,
+                            Name = "Gent",
+                            Population = 5000000L
+                        },
+                        new
+                        {
+                            Id = -4,
+                            CountryId = 1,
+                            Name = "Brugge",
+                            Population = 2000000L
+                        });
                 });
 
             modelBuilder.Entity("Demo.Domain.Country", b =>
@@ -70,6 +100,28 @@ namespace Demo.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("tblCountries", "Country");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "België"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Nederland"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Frankrijk"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Duitsland"
+                        });
                 });
 
             modelBuilder.Entity("Demo.Domain.City", b =>

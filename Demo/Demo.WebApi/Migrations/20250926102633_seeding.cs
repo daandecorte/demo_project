@@ -2,10 +2,12 @@
 
 #nullable disable
 
-namespace Demo.Infrastructure.Migrations
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace Demo.WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class seeding : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,6 +53,30 @@ namespace Demo.Infrastructure.Migrations
                         principalTable: "tblCountries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Country",
+                table: "tblCountries",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "België" },
+                    { 2, "Nederland" },
+                    { 3, "Frankrijk" },
+                    { 4, "Duitsland" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "City",
+                table: "tblCities",
+                columns: new[] { "Id", "CountryId", "Name", "Population" },
+                values: new object[,]
+                {
+                    { -4, 1, "Brugge", 2000000L },
+                    { -3, 1, "Gent", 5000000L },
+                    { -2, 1, "Brussel", 20000000L },
+                    { -1, 1, "Antwerpen", 10000000L }
                 });
 
             migrationBuilder.CreateIndex(

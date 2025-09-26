@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Demo.Infrastructure.Migrations
+namespace Demo.WebApi.Migrations
 {
     [DbContext(typeof(DemoContext))]
     partial class DemoContextModelSnapshot : ModelSnapshot
@@ -52,9 +52,30 @@ namespace Demo.Infrastructure.Migrations
                         new
                         {
                             Id = -1,
-                            CountryId = -1,
+                            CountryId = 1,
                             Name = "Antwerpen",
                             Population = 10000000L
+                        },
+                        new
+                        {
+                            Id = -2,
+                            CountryId = 1,
+                            Name = "Brussel",
+                            Population = 20000000L
+                        },
+                        new
+                        {
+                            Id = -3,
+                            CountryId = 1,
+                            Name = "Gent",
+                            Population = 5000000L
+                        },
+                        new
+                        {
+                            Id = -4,
+                            CountryId = 1,
+                            Name = "Brugge",
+                            Population = 2000000L
                         });
                 });
 

@@ -9,12 +9,10 @@ namespace Demo.WebApi.Controllers
 {
     public class CityController : APIv1Controller
     {
-        private readonly ICityService cityService;
         private readonly IMediator mediator;
 
-        public CityController(ICityService cityService, IMediator mediator)
+        public CityController(IMediator mediator)
         {
-            this.cityService = cityService;
             this.mediator = mediator;
         }
 
@@ -45,7 +43,7 @@ namespace Demo.WebApi.Controllers
         public async Task<IActionResult> DeleteCity(int id)
         {
             //exception handling for KeyNotFoundException in ExceptionHandlingMiddelware
-            await cityService.Delete(id);
+            await mediator.Send(new DeleteCityCommand() { Id=id});
             return NoContent();
         }
 

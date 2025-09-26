@@ -11,9 +11,6 @@ namespace Demo.Application.Extensions
     {
         public static IServiceCollection RegisterApplication(this IServiceCollection services)
         {
-            //services.AddScoped<ICountryService, CountryService>();
-            services.AddScoped<ICityService, CityService>();
-            services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

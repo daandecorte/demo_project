@@ -30,7 +30,7 @@ namespace Demo.Application.Services
             using var client = new SmtpClient(smtpHost, smtpPort)
             {
                 Credentials = new NetworkCredential(smtpUser, smtpPass),
-                EnableSsl = true
+                EnableSsl = false
             };
 
             var mail = new MailMessage(smtpUser, to, subject, body);
