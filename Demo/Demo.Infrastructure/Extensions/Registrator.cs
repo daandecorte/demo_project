@@ -19,7 +19,7 @@ namespace AP.MyGameStore.Infrastructure.Extensions
         {
             // ToDo: Return connection string to Demo
             services.AddDbContext<DemoContext>(options =>
-                        options.UseSqlServer("name=ConnectionStrings:DemoDocker"));
+                        options.UseSqlServer("name=ConnectionStrings:Demo"));
 
             return services;
         }
