@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
+using Demo.Application.Exceptions;
 using Demo.Application.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Demo.Application.CQRS.Cities
 {
@@ -25,7 +21,12 @@ namespace Demo.Application.CQRS.Cities
         }
         public async Task<CityDTO> Handle(GetCityByIdQuery request, CancellationToken cancellationToken)
         {
-            return mapper.Map<CityDTO>(await uow.CityRepository.GetByIdWithCountry(request.Id));
+            var city = await uow.CityRepository.GetByIdWithCountry(request.Id);
+
+            if (city == null)
+                throw new CityNotFoundException($"City with id {request.Id} not found.");
+
+            return mapper.Map<CityDTO>(city);
         }
     }
 }

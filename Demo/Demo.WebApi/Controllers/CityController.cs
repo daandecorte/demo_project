@@ -1,5 +1,4 @@
 ﻿using Demo.Application.Interfaces;
-using Demo.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Demo.Application.CQRS.Cities;
@@ -28,12 +27,15 @@ namespace Demo.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCityById(int id)
         {
-            var city = await mediator.Send(new GetCityByIdQuery() { Id = id });
-
-            if (city == null)
-                return NotFound();
-
-            return Ok(city);
+            try
+            {
+                var city = await mediator.Send(new GetCityByIdQuery() { Id = id });
+                return Ok(city);
+            }
+            catch (CityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
 
