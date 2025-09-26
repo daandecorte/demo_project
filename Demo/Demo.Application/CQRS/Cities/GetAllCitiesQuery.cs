@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using Demo.Application.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Demo.Application.CQRS.Cities
 {
@@ -15,7 +10,7 @@ namespace Demo.Application.CQRS.Cities
         public int PageSize { get; set; }
     }
 
-    public class  GetAllCitiesQueryHandler : IRequestHandler<GetAllCitiesQuery, IEnumerable<CityDTO>>
+    public class GetAllCitiesQueryHandler : IRequestHandler<GetAllCitiesQuery, IEnumerable<CityDTO>>
     {
         private readonly IUnitofWork uow;
         private readonly IMapper mapper;

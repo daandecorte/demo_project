@@ -14,6 +14,5 @@ namespace Demo.Application.Interfaces
         public Task<City?> GetById(int id);
         public Task<City> Add(City city);
         public Task Delete(int id);
-        public Task<City> Update(City city);
     }
 }

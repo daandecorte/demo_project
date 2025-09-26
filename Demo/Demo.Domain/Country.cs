@@ -13,7 +13,7 @@ namespace Demo.Domain
         public int Id { get; set; }
         public string Name { get; set; }
 
-        //[JsonIgnore]
+        [JsonIgnore]
         public ICollection<City> Cities { get; set; }
     }
 }

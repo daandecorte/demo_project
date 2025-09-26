@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Demo.Application.CQRS.Cities;
 using Demo.Application.Exceptions;
+using Demo.Domain;
 
 namespace Demo.WebApi.Controllers
 {
@@ -46,6 +47,20 @@ namespace Demo.WebApi.Controllers
             //exception handling for KeyNotFoundException in ExceptionHandlingMiddelware
             await cityService.Delete(id);
             return NoContent();
+        }
+
+        [Route("{id}")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateCity(int id, [FromBody] UpdateCityDTO city)
+        {
+            if (id != city.Id)
+            {
+                return BadRequest("The ID in the URL does not match the ID in the request body.");
+            }
+
+            var updatedCity = await mediator.Send(new UpdateCommand { City = city });
+
+            return Ok(updatedCity);
         }
     }
 }

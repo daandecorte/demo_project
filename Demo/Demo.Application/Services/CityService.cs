@@ -58,10 +58,5 @@ namespace Demo.Application.Services
             var body = $"The city '{city.Name}' has been deleted.";
             await emailService.SendEmailAsync("daan.decorte@gmail.com", subject, body);
         }
-
-        public Task<City> Update(City city)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
