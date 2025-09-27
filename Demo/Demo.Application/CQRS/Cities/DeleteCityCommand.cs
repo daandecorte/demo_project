@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Demo.Application.Exceptions;
 using Demo.Application.Interfaces;
+using FluentValidation;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -11,11 +13,31 @@ using System.Threading.Tasks;
 
 namespace Demo.Application.CQRS.Cities
 {
-    public class DeleteCityCommand: IRequest
+    public class DeleteCityCommand: IRequest<Unit>
     {
         public int Id { get; set; }
     }
-    public class DeleteCityCommandHandler : IRequestHandler<DeleteCityCommand>
+    public class DeleteCommandValidator: AbstractValidator<DeleteCityCommand>
+    {
+        private IUnitofWork uow;
+
+        public DeleteCommandValidator(IUnitofWork uow)
+        {
+            this.uow = uow;
+            RuleFor(c => c.Id).MustAsync(async (id, cancellation) =>
+            {
+                var city = await uow.CityRepository.GetById(id);
+                return city != null;
+            }).WithMessage(c=>$"A city with id {c.Id} does not exist!");
+
+            RuleFor(c => c.Id).MustAsync(async (id, cancellation) =>
+            {
+                var cities = await uow.CityRepository.GetAll();
+                return cities.Count() > 1;
+            }).WithMessage("Cannot delete the last city.");
+        }
+    }
+    public class DeleteCityCommandHandler : IRequestHandler<DeleteCityCommand, Unit>
     {
         private readonly IUnitofWork uow;
         private readonly IMapper mapper;
@@ -26,24 +48,18 @@ namespace Demo.Application.CQRS.Cities
             this.mapper = mapper;
             this.emailService = emailService;
         }
-        public async Task Handle(DeleteCityCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteCityCommand request, CancellationToken cancellationToken)
         {
-            var cities = await this.uow.CityRepository.GetAll();
-            if (cities.Count() <= 1)
-            {
-                throw new ValidationException("Cannot delete the last city.");
-            }
-            var city = cities.FirstOrDefault(c => c.Id == request.Id);
-            if (city == null)
-            {
-                throw new KeyNotFoundException($"A city with id {request.Id} does not exist!");
-            }
+            var city = await uow.CityRepository.GetById(request.Id);
             uow.CityRepository.Delete(city);
             await uow.Commit();
 
-            var subject = "City Deleted";
-            var body = $"The city '{city.Name}' has been deleted.";
-            await emailService.SendEmailAsync("daan.decorte@gmail.com", subject, body);
+            await emailService.SendEmailAsync(
+                "daan.decorte@gmail.com",
+                "City Deleted",
+                $"The city '{city.Name}' has been deleted."
+            );
+            return Unit.Value;
         }
     }   
 }

@@ -1,4 +1,5 @@
-﻿using Demo.Application.Interfaces;
+﻿using Demo.Application.Behaviour;
+using Demo.Application.Interfaces;
 using Demo.Application.Services;
 using FluentValidation;
 using MediatR;
@@ -15,7 +16,7 @@ namespace Demo.Application.Extensions
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
             return services;
         }

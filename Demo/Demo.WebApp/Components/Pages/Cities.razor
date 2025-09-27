@@ -163,7 +163,8 @@ else
             if(!string.IsNullOrWhiteSpace(error))
             {
                 var errorObject = JsonSerializer.Deserialize<ErrorResponseInfo>(error);
-                errorText = $"Failed: {errorObject?.Message}";
+                var msgs = errorObject?.Errors?.Select(e => e.Error).ToList();
+                errorText = $"{errorObject.Message}: {string.Join(", ", msgs)}";
                 StateHasChanged();
             }
             Console.WriteLine($"Failed: {res.StatusCode} {error}");
@@ -178,5 +179,11 @@ else
     {
         public int StatusCode { get; set; }
         public string Message { get; set; }
+        public List<ErrorDetail> Errors { get; set; } = new();
+    }
+    public class ErrorDetail
+    {
+        public string Field { get; set; }
+        public string Error { get; set; }
     }
 }

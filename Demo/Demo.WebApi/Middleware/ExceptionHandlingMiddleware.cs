@@ -32,9 +32,17 @@ namespace AP.MyGameStore.WebAPI.Middleware
                 response.Message = ex.Message;
                 switch (ex)
                 {
-                    case ValidationException:
-                    case FV.ValidationException:
+                    case Demo.Application.Exceptions.ValidationException:
                         response.StatusCode = StatusCodes.Status400BadRequest;
+                        break;
+                    case FV.ValidationException fvEx:
+                        response.StatusCode = StatusCodes.Status400BadRequest;
+                        response.Message = "Validation failed";
+                        response.Errors = fvEx.Errors.Select(e => new
+                        {
+                            Field = e.PropertyName,
+                            Error = e.ErrorMessage
+                        });
                         break;
                     case KeyNotFoundException:
                     case RelationNotFoundException:
@@ -55,5 +63,6 @@ namespace AP.MyGameStore.WebAPI.Middleware
     {
         public int StatusCode { get; set; }
         public string Message { get; set; }
+        public object Errors { get; set; }
     }
 }
