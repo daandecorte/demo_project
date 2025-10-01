@@ -14,6 +14,7 @@ namespace Demo.Application
     {
         public Mappings()
         {
+            CreateMap<CreateCityDTO, City>();
             CreateMap<City, CityDTO>()
                 .ForMember(city => city.Country, 
                             opt => opt.MapFrom(src => src.Country.Name));

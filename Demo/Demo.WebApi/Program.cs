@@ -1,7 +1,7 @@
-
-using AP.MyGameStore.Infrastructure.Extensions;
 using Demo.Application.Extensions;
+using Demo.Infrastructure.Extensions;
 using Demo.WebAPI.Extensions;
+using System.Reflection;
 
 namespace Demo.WebApi
 {
@@ -15,6 +15,7 @@ namespace Demo.WebApi
             builder.Services.RegisterApplication();
             builder.Services.RegisterInfrastructure();
 
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

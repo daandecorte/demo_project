@@ -5,6 +5,7 @@ namespace Demo.Application.Interfaces
 {
     public interface ICityRepository : IGenericRepository<City>
     {
+        Task<City> CreateCity(City city);
         Task<IEnumerable<City>> GetAllWithCountry();
 
         Task<City> GetByIdWithCountry(int id);

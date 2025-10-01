@@ -50,5 +50,11 @@ namespace Demo.Infrastructure.Repositories
         {
             context.Cities.RemoveRange(cities);
         }
+
+        public async Task<City> CreateCity(City city)
+        {
+            var entry = await context.Cities.AddAsync(city);
+            return entry.Entity;
+        }
     }
 }

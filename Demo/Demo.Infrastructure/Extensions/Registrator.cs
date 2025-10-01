@@ -5,7 +5,7 @@ using Demo.Infrastructure.UoW;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AP.MyGameStore.Infrastructure.Extensions
+namespace Demo.Infrastructure.Extensions
 {
     public static class Registrator
     {
@@ -19,7 +19,7 @@ namespace AP.MyGameStore.Infrastructure.Extensions
         {
             // ToDo: Return connection string to Demo
             services.AddDbContext<DemoContext>(options =>
-                        options.UseSqlServer("name=ConnectionStrings:Demo", b => b.MigrationsAssembly("Demo.WebApi")));
+                        options.UseSqlServer("name=ConnectionStrings:DemoDocker", b => b.MigrationsAssembly("Demo.WebApi")));
 
             return services;
         }

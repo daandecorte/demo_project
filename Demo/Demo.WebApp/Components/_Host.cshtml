@@ -1,0 +1,7 @@
+﻿@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery antiforgery
+@{
+    var tokens = antiforgery.GetAndStoreTokens(Context);
+}
+<script>
+    window.__RequestVerificationToken = '@tokens.RequestToken';
+</script>

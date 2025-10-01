@@ -23,7 +23,6 @@ namespace Demo.WebApp
             }
 
             app.UseHttpsRedirection();
-
             app.UseStaticFiles();
             app.UseAntiforgery();
 

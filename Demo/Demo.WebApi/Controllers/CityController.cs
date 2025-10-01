@@ -37,6 +37,19 @@ namespace Demo.WebApi.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddCity([FromBody] CreateCityDTO city)
+        {
+            try
+            {
+                var createdCity = await mediator.Send(new CreateCityCommand() { City = city});
+                return Ok(createdCity);
+            }
+            catch (CityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
 
         [Route("{id}")]
         [HttpDelete]

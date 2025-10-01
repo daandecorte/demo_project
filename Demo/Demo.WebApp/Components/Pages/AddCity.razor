@@ -1,0 +1,76 @@
+﻿@page "/addcity"
+@using Demo.Application.CQRS
+@using Demo.Application.CQRS.Cities
+@using PSC.CSharp.Library.CountryData
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<PageTitle>Add City</PageTitle>
+<h3>Add City</h3>
+
+<form @onsubmit="Submit">
+    <div class="mb-3">
+        <label for="cityName" class="form-label">City Name</label>
+        <InputText class="form-control" id="cityName" placeholder="Enter city name" @bind-Value="Model.Name"/>
+    </div>
+    <div class="mb-3">
+        <label for="population" class="form-label">Population</label>
+        <InputNumber TValue="long" class="form-control" id="population" placeholder="Enter population" @bind-Value="Model.Population"/>
+    </div>
+    @if (countries.Count > 0)
+    {
+        <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
+            <InputSelect class="form-control" id="country" @bind-Value="Model.Country">
+                <option value="">-- Select a country --</option>
+                @foreach (var country in countries)
+                {
+                    <option value="@country">@country</option>
+                }
+            </InputSelect>
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Add City</button>
+</form>
+
+@code {
+    private CityDTO Model { get; set; } = new();
+    private List<string> countries = new();
+
+    protected override void OnInitialized()
+    {
+        var countryHelper = new CountryHelper();
+        var data = countryHelper.GetCountryData();
+        countries = data.Select(c => c.CountryName).ToList();
+    }
+
+    private async Task Submit()
+    {
+        if (string.IsNullOrWhiteSpace(Model.Name) || 
+            string.IsNullOrWhiteSpace(Model.Country) || 
+            Model.Population > 10000000000)
+        {
+            return;
+        }
+
+        var request = new HttpRequestMessage(HttpMethod.Post, "/api/v1/City")
+        {
+            Content = JsonContent.Create(Model)
+        };
+
+        // grab antiforgery token from window
+        var token = await JS.InvokeAsync<string>("eval", "window.__RequestVerificationToken");
+        request.Headers.Add("RequestVerificationToken", token);
+
+        var response = await Http.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            // maybe show success message
+        }
+        else
+        {
+            // handle error
+        }
+    }
+}
