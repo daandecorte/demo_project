@@ -25,7 +25,16 @@ namespace Demo.Application.CQRS.Cities
         public async Task<CityDTO> Handle(CreateCityCommand request, CancellationToken cancellationToken)
         {
             var city = new City();
-            mapper.Map(request.City, city);
+
+            Country? country = await uow.CountryRepository.GetByName(request.City.Country);
+            if (country == null)
+            {
+                throw new Exception("Country not found");
+            }
+
+            city = mapper.Map<City>(request.City);
+            city.Country = country;
+
             city = await uow.CityRepository.CreateCity(city);
             await uow.Commit();
             return mapper.Map<CityDTO>(city);

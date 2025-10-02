@@ -13,7 +13,7 @@ namespace Demo.Application.Interfaces
             ByNameAscending,
             ByNameDescending
         }
-        Country GetByName(string name);
+        Task<Country?> GetByName(string name);
     }
     public enum sortBy
     {

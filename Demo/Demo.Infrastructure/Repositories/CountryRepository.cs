@@ -54,9 +54,9 @@ namespace Demo.Infrastructure.Repositories
             return result;
         }
 
-        public Country GetByName(string name)
+        public Task<Country?> GetByName(string name)
         {
-            throw new NotImplementedException();
+            return context.Countries.FirstOrDefaultAsync(c => c.Name == name);
         }
     }
 }
