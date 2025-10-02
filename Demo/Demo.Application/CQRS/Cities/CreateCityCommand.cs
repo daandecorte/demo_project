@@ -31,7 +31,7 @@ namespace Demo.Application.CQRS.Cities
             {
                 throw new Exception("Country not found");
             }
-
+            
             mapper.Map(request.City, city);
             city.Country = country;
 
