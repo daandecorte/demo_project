@@ -64,8 +64,9 @@ else
         city = await Http.GetFromJsonAsync<UpdateCityDTO>($"/api/v1/city/{Id}");
 
         // Get the paged result and extract only the data
-        var pagedResult = await Http.GetFromJsonAsync<PagedResult<CountryDTO>>("/api/v1/country");
-        countries = pagedResult?.Data?.ToArray() ?? Array.Empty<CountryDTO>();
+        var pagedResult = await Http.GetFromJsonAsync<IEnumerable<CountryDTO>>("/api/v1/country");
+        // countries = pagedResult?.Data?.ToArray() ?? Array.Empty<CountryDTO>();
+        countries = pagedResult?.ToArray() ?? Array.Empty<CountryDTO>();
     }
 
     private async Task HandleValidSubmit()
