@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Demo.Application.Exceptions;
 using Demo.Application.Interfaces;
 using Demo.Domain;
 using MediatR;
@@ -26,16 +25,17 @@ namespace Demo.Application.CQRS.Cities
         {
             var city = new City();
 
-            Country? country = await uow.CountryRepository.GetByName(request.City.Country);
+            //Country? country = await uow.CountryRepository.GetByName(request.City.Country);
+            Country? country = await uow.CountryRepository.GetById(request.City.CountryId);
             if (country == null)
             {
                 throw new Exception("Country not found");
             }
 
-            city = mapper.Map<City>(request.City);
+            mapper.Map(request.City, city);
             city.Country = country;
 
-            city = await uow.CityRepository.CreateCity(city);
+            var newCity = await uow.CityRepository.CreateCity(city);
             await uow.Commit();
             return mapper.Map<CityDTO>(city);
         }

@@ -9,10 +9,10 @@ namespace Demo.Domain
 {
     public class City
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public long Population { get; set; }
-        public int CountryId { get; set; }
+        public long CountryId { get; set; }
 
         [JsonIgnore]
         public Country? Country { get; set; }

@@ -18,6 +18,14 @@ namespace Demo.Infrastructure.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            modelBuilder.Entity<City>(entity =>
+            {
+                entity.HasOne(c => c.Country)          // navigation property
+                      .WithMany(c => c.Cities)        // collection property in Country
+                      .HasForeignKey(c => c.CountryId); // use existing CountryId FK property
+            });
+
             // Seed data
             modelBuilder.Entity<Country>().Seed();
             modelBuilder.Entity<City>().Seed();

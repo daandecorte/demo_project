@@ -11,9 +11,8 @@ namespace Demo.Application.CQRS.Cities
 
         public string Name { get; set; } = string.Empty;
 
-
         public long Population { get; set; }
 
-        public string Country { get; set; }
+        public long CountryId { get; set; }
     }
 }

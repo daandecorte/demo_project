@@ -1,76 +1,89 @@
 ﻿@page "/addcity"
-@using Demo.Application.CQRS
+@rendermode InteractiveServer
+@using System.Net.Http.Json
+@using Demo.Application
 @using Demo.Application.CQRS.Cities
-@using PSC.CSharp.Library.CountryData
+@using Demo.Application.CQRS.Countries
 @inject HttpClient Http
-@inject IJSRuntime JS
+@inject NavigationManager Navigation
 
-<PageTitle>Add City</PageTitle>
 <h3>Add City</h3>
 
-<form @onsubmit="Submit">
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+<EditForm Model="city" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
     <div class="mb-3">
-        <label for="cityName" class="form-label">City Name</label>
-        <InputText class="form-control" id="cityName" placeholder="Enter city name" @bind-Value="Model.Name"/>
+        <label for="name" class="form-label">City Name</label>
+        <InputText id="name" class="form-control" @bind-Value="city.Name" />
     </div>
+
     <div class="mb-3">
         <label for="population" class="form-label">Population</label>
-        <InputNumber TValue="long" class="form-control" id="population" placeholder="Enter population" @bind-Value="Model.Population"/>
+        <InputNumber id="population" class="form-control" @bind-Value="city.Population" />
     </div>
-    @if (countries.Count > 0)
-    {
-        <div class="mb-3">
-            <label for="country" class="form-label">Country</label>
-            <InputSelect class="form-control" id="country" @bind-Value="Model.Country">
-                <option value="">-- Select a country --</option>
-                @foreach (var country in countries)
-                {
-                    <option value="@country">@country</option>
-                }
-            </InputSelect>
-        </div>
-    }
-    <button type="submit" class="btn btn-primary">Add City</button>
-</form>
+
+    <div class="mb-3">
+        <label for="country" class="form-label">Country</label>
+        <InputSelect id="country" class="form-select" @bind-Value="city.CountryId">
+            <option value="0">Select a country</option>
+            @foreach (var country in countries)
+            {
+                <option value="@country.Id">@country.Name</option>
+            }
+        </InputSelect>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" class="btn btn-secondary ms-2" @onclick='@(() => Navigation.NavigateTo("/cities"))'>Cancel</button>
+</EditForm>
 
 @code {
-    private CityDTO Model { get; set; } = new();
-    private List<string> countries = new();
+    private CreateCityDTO city;
+    private CountryDTO[] countries = Array.Empty<CountryDTO>();
+    private string? successMessage;
+    private string? errorMessage;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        var countryHelper = new CountryHelper();
-        var data = countryHelper.GetCountryData();
-        countries = data.Select(c => c.CountryName).ToList();
+        city = new CreateCityDTO();
+        try
+        {
+            countries = await Http.GetFromJsonAsync<CountryDTO[]>("api/v1/country") ?? Array.Empty<CountryDTO>();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error loading countries: {ex.Message}";
+        }
     }
 
-    private async Task Submit()
+    private async Task HandleValidSubmit()
     {
-        if (string.IsNullOrWhiteSpace(Model.Name) || 
-            string.IsNullOrWhiteSpace(Model.Country) || 
-            Model.Population > 10000000000)
-        {
-            return;
-        }
+        successMessage = null;
+        errorMessage = null;
 
-        var request = new HttpRequestMessage(HttpMethod.Post, "/api/v1/City")
+        if (city != null)
         {
-            Content = JsonContent.Create(Model)
-        };
-
-        // grab antiforgery token from window
-        var token = await JS.InvokeAsync<string>("eval", "window.__RequestVerificationToken");
-        request.Headers.Add("RequestVerificationToken", token);
-
-        var response = await Http.SendAsync(request);
-
-        if (response.IsSuccessStatusCode)
-        {
-            // maybe show success message
-        }
-        else
-        {
-            // handle error
+            var response = await Http.PostAsJsonAsync("api/v1/City", city);
+            if (response.IsSuccessStatusCode)
+            {
+                successMessage = "City added successfully!";
+                await Task.Delay(2500);
+                Navigation.NavigateTo("/cities");
+            }
+            else
+            {
+                errorMessage = $"Error adding city: {response.ReasonPhrase}";
+            }
         }
     }
 }

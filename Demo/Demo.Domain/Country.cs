@@ -10,7 +10,7 @@ namespace Demo.Domain
 {
     public class Country
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
 
         [JsonIgnore]

@@ -10,7 +10,7 @@ namespace Demo.Application.Interfaces
     {
         Task<IEnumerable<T>> GetAll();
 
-        Task<T> GetById(int id);
+        Task<T> GetById(long id);
         Task<T> Create(T newStore);
 
         T Update(T modifiedStore);
