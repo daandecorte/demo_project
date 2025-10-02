@@ -156,7 +156,7 @@ else
         var res = await Http.DeleteAsync($"/api/v1/city/{id}");
         if (res.IsSuccessStatusCode)
         {
-            Console.WriteLine($"City {id} Deleted");
+            StateHasChanged();
         }
         else
         {
@@ -169,11 +169,10 @@ else
                 StateHasChanged();
             }
             Console.WriteLine($"Failed: {res.StatusCode} {error}");
+            await Task.Delay(5000);
+            errorText = "";
+            StateHasChanged();  
         }
-
-        await Task.Delay(5000);
-        errorText = "";
-        StateHasChanged();
         await LoadData();
     }
     public class ErrorResponseInfo

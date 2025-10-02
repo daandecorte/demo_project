@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System;
 using FV = FluentValidation;
+using System.Net.Mail;
 
 namespace AP.MyGameStore.WebAPI.Middleware
 {
@@ -32,6 +33,10 @@ namespace AP.MyGameStore.WebAPI.Middleware
                 response.Message = ex.Message;
                 switch (ex)
                 {
+                    case SmtpException:
+                        response.StatusCode = StatusCodes.Status200OK;
+                        response.Message = "Failed to send email";
+                        break;
                     case Demo.Application.Exceptions.ValidationException:
                         response.StatusCode = StatusCodes.Status400BadRequest;
                         break;
