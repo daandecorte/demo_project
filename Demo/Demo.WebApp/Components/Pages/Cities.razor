@@ -17,29 +17,18 @@
     <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
-    @* <p>Loading data...</p> *@
-}
-else if (!cities.Any())
-{
-    <div class="alert alert-warning" role="alert">
-        No data available.
-    </div>
 }
 else
 {
-    <input 
-        type="text" 
-        class="form-control mb-3" 
-        placeholder="Search by city name..." 
-        @oninput="(e) => FilterCitiesByName(e.Value?.ToString())" 
-    />
+    <input type="text"
+           class="form-control mb-3"
+           placeholder="Search by city name..."
+           @oninput="(e) => FilterCitiesByName(e.Value?.ToString())" />
 
-    <input 
-        type="text" 
-        class="form-control mb-3" 
-        placeholder="Search by country..."
-           @oninput="(e) => FilterCitiesByCountry(e.Value?.ToString())"
-    />
+    <input type="text"
+           class="form-control mb-3"
+           placeholder="Search by country..."
+           @oninput="(e) => FilterCitiesByCountry(e.Value?.ToString())" />
 
     <table style="width:100%; border-collapse:collapse; border:1px solid #ccc; font-family:Arial, sans-serif; font-size:14px;">
         <thead>
@@ -52,17 +41,28 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var city in cities)
+            @if (cities.Any())
+            {
+                @foreach (var city in cities)
+                {
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">@city.Name</td>
+                        <td style="padding:8px; border:1px solid #ccc;">@city.Country</td>
+                        <td style="padding:8px; border:1px solid #ccc;">@city.Population</td>
+                        <td style="padding:8px; border:1px solid #ccc;">
+                            <button @onclick="() => DeleteCity(city.Id)" class="btn btn-danger btn-sm">Delete</button>
+                        </td>
+                        <td style="padding:8px; border:1px solid #ccc;">
+                            <a class="btn btn-warning btn-sm" href="/cities/edit/@city.Id">Edit</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td style="padding:8px; border:1px solid #ccc;">@city.Name</td>
-                    <td style="padding:8px; border:1px solid #ccc;">@city.Country</td>
-                    <td style="padding:8px; border:1px solid #ccc;">@city.Population</td>
-                    <td style="padding:8px; border:1px solid #ccc;">
-                        <button @onclick="() => DeleteCity(city.Id)" class="btn btn-danger btn-sm">Delete</button>
-                    </td
-                    <td style="padding:8px; border:1px solid #ccc;">
-                        <a class="btn btn-warning btn-sm" href="/cities/edit/@city.Id">Edit</a>
+                    <td colspan="5" style="text-align:center; padding:12px; color:gray;">
+                        No matching cities found.
                     </td>
                 </tr>
             }
@@ -82,6 +82,7 @@ else
         </button>
     </div>
 }
+
 
 @code {
     private List<City>? cities;
