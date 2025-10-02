@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Demo.Application.Interfaces;
 using Demo.Domain;
+using FluentValidation;
 using MediatR;
 
 namespace Demo.Application.CQRS.Cities
@@ -19,6 +20,31 @@ namespace Demo.Application.CQRS.Cities
         {
             this.uow = uow;
             this.mapper = mapper;
+        }
+
+        public class CreateCityCommandValidator : AbstractValidator<CreateCityCommand>
+        {
+            private IUnitofWork uow;
+
+            public CreateCityCommandValidator(IUnitofWork uow)
+            {
+                this.uow = uow;
+                RuleFor(c => c.City.Name).Must(name =>
+                {
+                    return name.Length > 0;
+                }).WithMessage(c => $"You need to enter a city name.");
+
+                RuleFor(c => c.City.Population).Must(population =>
+                {
+                    return population < 10000000000;
+                }).WithMessage("Cannot delete the last city.");
+
+                RuleFor(c => c.City.CountryId).MustAsync(async (countryId, cancellation) =>
+                {
+                    var country = await uow.CountryRepository.GetById(countryId);
+                    return country != null ;
+                }).WithMessage("The selected country does not exist.");
+            }
         }
 
         public async Task<CityDTO> Handle(CreateCityCommand request, CancellationToken cancellationToken)
