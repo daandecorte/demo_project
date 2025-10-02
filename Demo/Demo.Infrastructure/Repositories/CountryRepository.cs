@@ -18,40 +18,35 @@ namespace Demo.Infrastructure.Repositories
         {
             this.context = context;
         }
-        public async Task<PagedResult<Country>> GetAll(string? nameFilter = null, ICountryRepository.SortBy? sortBy = null, int pageNumber = 1, int pageLength = 10)
+        public async Task<IEnumerable<Country>> GetAll(string? nameFilter = null, ICountryRepository.SortBy? sortBy = null)
         {
-            var result = new PagedResult<Country>();
-            result.PageNumber = pageNumber;
-            result.PageSize = pageLength;
+            //return await context.Countries
+            //    .ToListAsync();
 
             IQueryable<Country> query = context.Countries;
 
-            result.TotalRecordCount = query.Count();
-
-            if (nameFilter != null)
-                query = query.Where(s => s.Name.Contains(nameFilter));
-
-            result.FilteredRecordCount = query.Count();
-            result.TotalNumberOfPages = (int)Math.Ceiling((double)result.FilteredRecordCount / result.PageSize);
-
-            switch (sortBy)
+            if (!string.IsNullOrWhiteSpace(nameFilter))
             {
-                case ICountryRepository.SortBy.ByNameAscending:
-                    query = query.OrderBy(s => s.Name);
-                    break;
-                case ICountryRepository.SortBy.ByNameDescending:
-                    query = query.OrderByDescending(s => s.Name);
-                    break;
-                default:
-                    break;
+                query = query.Where(c => c.Name.Contains(nameFilter));
             }
-            //paging must be the last step !
-            query = query.Skip((pageNumber - 1) * pageLength).Take(pageLength);
 
-            //here the actual query for filtered stores with paging is performed on the DB !
-            result.Data = await query.ToListAsync();
+            if (sortBy != null)
+            {
+                switch (sortBy)
+                {
+                    //case ICountryRepository.SortBy.ByNameAscending:
+                    //    query = query.OrderBy(c => c.Name);
+                    //    break;
+                    case ICountryRepository.SortBy.ByNameDescending:
+                        query = query.OrderByDescending(c => c.Name);
+                        break;
+                    default:
+                        query = query.OrderBy(c => c.Name);
+                        break;
+                }
+            }
 
-            return result;
+            return await query.ToListAsync();
         }
 
         public Task<Country?> GetByName(string name)

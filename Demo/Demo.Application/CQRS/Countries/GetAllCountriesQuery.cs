@@ -4,13 +4,10 @@ using MediatR;
 
 namespace Demo.Application.CQRS.Countries
 {
-    public class GetAllCountriesQuery : IRequest<PagedResult<CountryDTO>>
-    {
-        public int PageNr { get; set; }
-        public int PageSize { get; set; }
-    }
+    public class GetAllCountriesQuery : IRequest<IEnumerable<CountryDTO>>
+    { }
 
-    public class GetAllCountriesQueryHandler : IRequestHandler<GetAllCountriesQuery, PagedResult<CountryDTO>>
+    public class GetAllCountriesQueryHandler : IRequestHandler<GetAllCountriesQuery, IEnumerable<CountryDTO>>
     {
         private readonly IUnitofWork uow;
         private readonly IMapper mapper;
@@ -19,13 +16,10 @@ namespace Demo.Application.CQRS.Countries
             this.uow = uow;
             this.mapper = mapper;   
         }
-        public async Task<PagedResult<CountryDTO>> Handle(GetAllCountriesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<CountryDTO>> Handle(GetAllCountriesQuery request, CancellationToken cancellationToken)
         {
-            var pagedCountries = await uow.CountryRepository.GetAll(
-                pageNumber: request.PageNr,
-                pageLength: request.PageSize
-            );
-            return mapper.Map<PagedResult<CountryDTO>>(pagedCountries);
+            var countries = await uow.CountryRepository.GetAll();
+            return mapper.Map<IEnumerable<CountryDTO>>(countries);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Demo.Application.Interfaces
 {
     public interface ICountryRepository : IGenericRepository<Country>
     {
-        Task<PagedResult<Country>> GetAll(string? nameFilter = null, SortBy? sortBy = null, int pageNumber = 1, int pageLength = 10);
+        Task<IEnumerable<Country>> GetAll(string? nameFilter = null, SortBy? sortBy = null);
 
         public enum SortBy
         {
