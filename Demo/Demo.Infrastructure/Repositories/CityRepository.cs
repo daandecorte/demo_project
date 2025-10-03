@@ -56,5 +56,11 @@ namespace Demo.Infrastructure.Repositories
             var entry = await context.Cities.AddAsync(city);
             return entry.Entity;
         }
+
+        public async Task<City?> GetByName(string name)
+        {
+            var city = await context.Cities.FirstOrDefaultAsync(c => c.Name == name);
+            return city;
+        }
     }
 }

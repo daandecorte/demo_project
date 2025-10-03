@@ -34,10 +34,14 @@ namespace Demo.Application.CQRS.Cities
                     return name.Length > 0;
                 }).WithMessage(c => $"You need to enter a city name.");
 
-                RuleFor(c => c.City.Population).Must(population =>
+                RuleFor(s => s.City.Population)
+                .InclusiveBetween(0, 10000000000).WithMessage("the population can't be more than 10.000.000.000 or below 0.");
+
+                RuleFor(c => c.City.Name).MustAsync(async (name, cancellation) =>
                 {
-                    return population <= 10000000000;
-                }).WithMessage("Cannot delete the last city.");
+                    var city = await uow.CityRepository.GetByName(name);
+                    return city == null;
+                }).WithMessage(c => $"The city {c.City.Name} already exists.");
 
                 RuleFor(c => c.City.CountryId).MustAsync(async (countryId, cancellation) =>
                 {
