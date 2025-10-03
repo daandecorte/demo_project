@@ -36,7 +36,7 @@ namespace Demo.Application.CQRS.Cities
 
                 RuleFor(c => c.City.Population).Must(population =>
                 {
-                    return population < 10000000000;
+                    return population <= 10000000000;
                 }).WithMessage("Cannot delete the last city.");
 
                 RuleFor(c => c.City.CountryId).MustAsync(async (countryId, cancellation) =>
